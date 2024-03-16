@@ -1,11 +1,16 @@
 #include <sys/ptrace.h>
-
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/user.h>
 
 #include <stdio.h>
+
+#include "syscall_table.h"
+
+const char* get_syscall_name(unsigned long long number) {
+    return names[number];
+}
 
 void tracee(int argc, char** argv) {
     // Указываем, что родительский процесс будет отслеживать
@@ -32,7 +37,7 @@ void tracer(pid_t pid) {
          * */
         if (WIFSTOPPED(status) && WSTOPSIG(status) & 0x80) {
             ptrace(PTRACE_GETREGS, pid, 0, &state); // Читаем состояние регистров
-            printf("SYSCALL %lld\n", state.orig_rax);
+            printf("SYSCALL %s\n", get_syscall_name(state.orig_rax));
 
             ptrace(PTRACE_SYSCALL, pid, 0, 0);
             waitpid(pid, &status, 0);
