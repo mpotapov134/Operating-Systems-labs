@@ -3,5 +3,5 @@
 #include "fm_functions.h"
 
 int main(int argc, char** argv) {
-    printf("%s\n", argv[0]);
+    fm_link(argv[1], argv[2]);
 }
