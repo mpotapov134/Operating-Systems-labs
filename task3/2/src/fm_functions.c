@@ -121,3 +121,21 @@ void fm_link(const char* oldpath, const char* newpath) {
         perror("fm_link failed");
     }
 }
+
+void fm_stat(const char* filename) {
+    struct stat file_stat;
+    if (stat(filename, &file_stat) == -1) {
+        perror("fm_stat failed");
+        return;
+    }
+
+    char modebuf[12];
+    strmode(file_stat.st_mode, modebuf);
+    printf("%s%ld\n", modebuf, file_stat.st_nlink);
+}
+
+void fm_chmod(const char* pathname, mode_t mode) {
+    if (chmod(pathname, mode) == -1) {
+        perror("fm_chmod failed");
+    }
+}

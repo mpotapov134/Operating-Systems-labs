@@ -1,6 +1,9 @@
 #ifndef FM_FUNCTIONS_H
 #define FM_FUNCTIONS_H
 
+#define DIR_MODE 0755
+#define FILE_MODE 644
+
 #include <fcntl.h>
 
 /// @brief Make new directory.
@@ -40,5 +43,14 @@ void fm_readlink(const char* link);
 /// @param oldpath name of the original file.
 /// @param newpath link name.
 void fm_link(const char* oldpath, const char* newpath);
+
+/// @brief Print file permissions and link count.
+/// @param filename file to examine.
+void fm_stat(const char* filename);
+
+/// @brief Set file mode.
+/// @param pathname file name.
+/// @param mode new mode.
+void fm_chmod(const char* pathname, mode_t mode);
 
 #endif
